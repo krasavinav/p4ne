@@ -11,12 +11,12 @@ def ip_parse(ip_str):
         return ip_obj
 
 file_list = glob.glob("C:\\av.krasavin\p4ne\lab1.6\config_files\*.log")
-ip_list = set()
+ip_set = set()
 for file in file_list:
     with open(file) as f:
         for line in f:
             ip_ = ip_parse(line.strip())
             if ip_:
-                ip_list.add(ip_)
+                ip_set.add(ip_)
 
-pprint(ip_list)
+pprint(sorted(list(ip_set)))
