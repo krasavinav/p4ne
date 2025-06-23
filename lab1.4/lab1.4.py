@@ -11,11 +11,14 @@ class IPv4RandomNetwork(ipaddress.IPv4Network):
         return self.is_global
 
 def value_ip(n):
+    print(n.netmask)
+    print(int(n.netmask)*2**32)
+    print(int(n.network_address))
     return int(n.netmask)*2**32 + int(n.network_address)
 
 
 network_list =[]
-while len(network_list) != 20:
+while len(network_list) != 2:
     net = IPv4RandomNetwork()
     if net.is_global:
         network_list.append(net)
