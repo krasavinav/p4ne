@@ -7,10 +7,9 @@ from pprint import pprint
 import ipaddress
 
 
-info = ["Здравствуйте!",
-        'При обращении по “/” — выдаёт краткую справку об использовании',
-        'При обращении по “/configs” — выдаёт сведения об именах всех хостов, для которых есть кофигурационные файлы (см. работу 1.6)',
-        'При обращении по “/config/hostname” выдает сведения о всех IP-адресах этого хоста']
+info = ("Здравствуйте!<br>При обращении по “/” — выдаёт краткую справку об использовании <br>"
+        "При обращении по “/configs” — выдаёт сведения об именах всех хостов, для которых есть кофигурационные файлы (см. работу 1.6))<br>"
+        "При обращении по “/config/hostname” выдает сведения о всех IP-адресах этого хоста<br>")
 
 app = Flask(__name__)
 
@@ -40,13 +39,14 @@ def configs():
     s =''
     a = main_dict.keys()
     for i in a:
-        s += str(i) +'\n'
-        pprint(s)
+        s += str(i) +'<br>'
     return s
+
 
 @app.route('/configs/<hostname>')
 def configs1(hostname):
     return json.dumps(main_dict[hostname])
+
 
 if __name__ =='__main__':
     file_list = glob.glob("C:\\av.krasavin\p4ne\lab1.6\config_files\*.log")
