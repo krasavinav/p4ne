@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask
 import re
 import glob
@@ -5,7 +7,7 @@ from pprint import pprint
 import ipaddress
 
 
-info = ["Здравствуйте! Hello",
+info = ["Здравствуйте!",
         'При обращении по “/” — выдаёт краткую справку об использовании',
         'При обращении по “/configs” — выдаёт сведения об именах всех хостов, для которых есть кофигурационные файлы (см. работу 1.6)',
         'При обращении по “/config/hostname” выдает сведения о всех IP-адресах этого хоста']
@@ -22,14 +24,15 @@ def parse(file):
             if re.search('^hostname |^sysname', line.strip()):
                 hostname = line.split()[1]
             elif re.search('^ip address ',line.strip()) and hostname:
-                ip_addr.append(ipaddress.IPv4Interface('/'.join(line.split()[2:4])))
+                # ip_addr.append(ipaddress.IPv4Interface('/'.join(line.split()[2:4])))
+                ip_addr.append('/'.join(line.split()[2:4]))
         a[hostname] = ip_addr
     return a
 
 
 @app.route('/')
 def index():
-    return info
+    return json.dumps(info, ensure_ascii=False)
 
 
 @app.route('/configs')
@@ -38,11 +41,12 @@ def configs():
     a = main_dict.keys()
     for i in a:
         s += str(i) +'\n'
+        pprint(s)
     return s
 
 @app.route('/configs/<hostname>')
 def configs1(hostname):
-    return
+    return json.dumps(main_dict[hostname])
 
 if __name__ =='__main__':
     file_list = glob.glob("C:\\av.krasavin\p4ne\lab1.6\config_files\*.log")
